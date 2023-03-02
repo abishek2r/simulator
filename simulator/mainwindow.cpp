@@ -6,20 +6,38 @@
 #include <QFileDialog>
 #include <list>
 #include <QtMath>
+#include <QVector>
 QList<float> n;
 QList<QList<float>> final;
+QVector<double> tri;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->customplot->addGraph();
+    ui->customplot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
+    ui->customplot->graph(0)->setLineStyle(QCPGraph::lsLine);
+    ui->customplot->xAxis->setLabel("a");
+    ui->customplot->yAxis->setLabel("b");
+    ui->customplot->xAxis->setRange(100,100);
+    ui->customplot->xAxis->setRange(100,100);
+    qDebug()<<"a";
+    ui->customplot->setInteractions(QCP::iRangeDrag | QCP ::iRangeZoom | QCP::iSelectPlottables);
+    QVector<double> x={1,2,3},y={5,6,7};
+    ui->customplot->graph(0)->setData(x,y);
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+
 
 
 void Write(QString Filename,QString n){
@@ -114,12 +132,13 @@ void triangle(int d,float v){
 
        x=x+(4.0*d)/(T*T)*q;
 
-
+        tri.append((4.0*d)/(T*T)*q);
         n.append(x);
         }
         else{
                  x=x+(4.0*d)/(T*T)*(T-q);
                  n.append(x);
+                 tri.append((4.0*d)/(T*T)*(T-q));
 
         }
 }
@@ -227,6 +246,13 @@ void MainWindow::on_pushButton_5_clicked()
 
 void MainWindow::on_pushButton_6_clicked()
 {
-
+    float no=tri.length();
+    QVector<double> x={0},y={0};
+ui->customplot->graph(0)->setData(x,y);
+    for (float i=0;i<no;i++){
+        x.append(i);
+        y.append(tri[i]);
+   }
+     ui->customplot->graph(0)->setData(x,y);
 }
 
