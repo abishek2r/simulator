@@ -143,39 +143,43 @@ void triangle(int d,float v){
         }
 }
 }
-void trapezoidal(int d,int v){
-    int x=0;
+void trapezoidal(int d,float v){
+    float x=0;
     int T=d/v;
+    n={};
 
+    for (int q=0;q<=T;q++){
+        if (q<=T/6){
 
-    for (int q=0;q<=100;q++){
-        if (q<T/6){
+       x=x+(36.0*d)*(q)/(5.0*T*T);
 
-       x=x+(36*d)*(T)/(5*T*T);
-
-       n.append(x);}
-         else if(q<5*T/6){
-                 x=x+(d*6)/(T*5);
+       n.append(x);
+        tri.append((36.0*d)*(q)/(5.0*T*T));}
+         else if(q<=5.0*T/6){
+                 x=x+(d*6.0)/(T*5.0);
                n.append(x);
+               tri.append((d*6.0)/(T*5.0));
 
 
         }
         else{
-            x=x+(36*d)*(T-q)/(5*T*T);
+            x=x+(36.0*d)*(T-q)/(5.0*T*T);
             n.append(x);
+            tri.append((36.0*d)*(T-q)/(5.0*T*T));
 
         }
 
     }
 }
-void sine(int d,int v){
-        double x=0;
+void sine(int d,float v){
+        float x=0;
         int T=d/v;
-        int a=0;
-        int b=0;
+
         for (int q=0;q<=100;q++){
-            x=x+d*T*7*sin(q*22/(T*7))/44;
+            x=x+d*11.0*sin(q*22.0/(T*7.0))/(T*7.0);
+
             n.append(x);
+            tri.append(d*11.0*sin(q*22.0/(T*7.0))/(T*7.0));
             }
 }
 void MainWindow::on_pushButton_4_clicked()
@@ -213,9 +217,11 @@ void MainWindow::on_pushButton_4_clicked()
     float diff=(d-n[le-1])/T;
     qDebug()<<diff;
     for (int p=0;p<le;p++){
-        qDebug()<<n[p]+diff<<p;
+
         float yu=diff*p;
+        qDebug()<<n[p]<<p;
         final.append({(n[p]+yu)*ratiox+x1,(n[p]+yu)*ratioy+y1,(n[p]+yu)*ratioz+z1});
+        n[p]=n[p]+yu;
     }
 
 
